@@ -1,0 +1,40 @@
+version: "3"
+services:
+  webserver:
+    image: apache/airflow:2.7.2-python3.10
+    container_name: airflow-webserver
+    environment:
+      - AIRFLOW__CORE__FERNET_KEY=hmu6ZhIuQZsFhKnTRc1v0P8uLOgVbfSxNxdak9D2Ut8=
+      - AIRFLOW__CORE__SQL_ALCHEMY_CONN=sqlite:////opt/airflow/airflow.db
+    volumes:
+      - ./dags:/opt/airflow/dags
+      - ./scripts:/opt/airflow/scripts
+      - ./data:/opt/airflow/data
+    ports:
+      - "8080:8080"
+    command: webserver
+
+  scheduler:
+    image: apache/airflow:2.7.2-python3.10
+    container_name: airflow-scheduler
+    environment:
+      - AIRFLOW__CORE__FERNET_KEY=hmu6ZhIuQZsFhKnTRc1v0P8uLOgVbfSxNxdak9D2Ut8=
+      - AIRFLOW__CORE__SQL_ALCHEMY_CONN=sqlite:////opt/airflow/airflow.db
+    volumes:
+      - ./dags:/opt/airflow/dags
+      - ./scripts:/opt/airflow/scripts
+      - ./data:/opt/airflow/data
+    command: scheduler
+
+  worker:
+    image: apache/airflow:2.7.2-python3.10
+    container_name: airflow-worker
+    environment:
+      - AIRFLOW__CORE__FERNET_KEY=hmu6ZhIuQZsFhKnTRc1v0P8uLOgVbfSxNxdak9D2Ut8=
+      - AIRFLOW__CORE__SQL_ALCHEMY_CONN=sqlite:////opt/airflow/airflow.db
+    volumes:
+      - ./dags:/opt/airflow/dags
+      - ./scripts:/opt/airflow/scripts
+      - ./data:/opt/airflow/data
+    command: worker
+
